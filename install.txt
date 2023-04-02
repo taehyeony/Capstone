@@ -1,0 +1,11 @@
+//tts
+pip install gtts
+
+
+//stt
+pip install SpeechRecognition
+pip install pyaudio
+
+
+//mp3 재생
+pip install playsound

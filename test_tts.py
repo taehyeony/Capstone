@@ -1,4 +1,5 @@
 from gtts import gTTS
+import playsound as ps
 
 if __name__ == '__main__':
     tts = gTTS(
@@ -12,3 +13,6 @@ if __name__ == '__main__':
         lang='en', slow=False
     )
     tts1.save('ex_en.mp3')
+    
+f = ps.playsound('ex_ko.mp3')
+
