@@ -28,7 +28,7 @@ for word in list_words:
 #Intent(의도) 목록 작성
 #예를 들어 hello와 유사한 단어가 입력되면 greet이라는 intent를 가짐
 keywords = {} #Intent 목록
-keywords_dict = {}
+keywords_dict = {}#Intent를 |로 구분해 저장
 
 # 키워드 사전에서 새 키 정의
 keywords['greet'] = []
@@ -46,7 +46,37 @@ for intent, keys in keywords.items():
     # keywords_dict dictionary에 저장
     keywords_dict[intent]='|'.join(keys)
 
-print(keywords_dict)
 #앞서 지정한 list_syn(키워드의 동의어 집합 리스트)을 Intent 와 매칭 시키는 dictionary 를 생성해야 한다.
 # list_syn 은 사용자가 입력할 가능성이 있는 키워드를 정의해놓은 데이터라면,
 # keywords_dict 는 해당 키워드들이 실제 Intent 와 매칭될 수 있도록 정의하는 자료구조이다.
+
+#Intent : responses - 의도 : 반응
+responses={
+    'greet' : 'Hello! How can I help you?',
+    'timings'  : 'We are open from 9AM to 5PM, Monday to Friday. We are closed on weekends and public holidays',
+    'fallback' : 'I dont quite understand. Could you repeat that?'
+}
+
+#의도와 일치하는 응답 생성
+#챗봇 실행
+while True:
+    print("How may I help you?")
+    # 사용자 입력을 받아 모든 문자를 소문자로 변환
+    #1. User Input
+    user_input = input().lower()
+    # 챗봇 종료 조건 정의
+    if user_input == 'quit':
+        print('Thank you for visiting.')
+        break
+    matched_intent = None
+    for intent, pattern in keywords_dict.items():
+        #정규식 검색 기능을 사용하여 사용자 입력에서 키워드 찾기
+        if re.search(pattern, user_input):
+            # 키워드가 일치하면 keywords_dict에서 해당 의도를 선택
+            matched_intent = intent
+    # 맞는 의도가 없으면 fallback을 기본으로 선택
+    key = 'fallback'
+    if matched_intent in responses:
+        key = matched_intent
+    # 챗봇이 선택한 intent와 일치하는 응답 출력
+    print(responses[key])
