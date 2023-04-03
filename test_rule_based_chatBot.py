@@ -13,7 +13,7 @@ nltk.download('omw-1.4')
 list_words = ['hello','timings'] #키워드
 list_syn = {} #동의어(유사어)를 저장할 dictionary - 사용자가 입력할 가능성이 있는 단어
 for word in list_words:
-    sysnonyms = []#동의어 임시 저장
+    sysnonyms = [] # 동의어 임시 저장
     for syn in wordnet.synsets(word):
         for lem in syn.lemmas(): #.lemmas는 syn이 Synset('***.?.00')형식으로 되어있는데 이를 Lemma class로 변환
             lem_name = re.sub('[^a-zA-Z0-9 \n\.]',' ',lem.name()) #동의어 문자열에서 특수문자 제거
@@ -26,26 +26,27 @@ for word in list_words:
 # 소스코드에서 list_syn 이 저장될 변수이다.
 
 #Intent(의도) 목록 작성
-keywords = {}
+#예를 들어 hello와 유사한 단어가 입력되면 greet이라는 intent를 가짐
+keywords = {} #Intent 목록
 keywords_dict = {}
 
-# Defining a new key in the keywords dictionary
+# 키워드 사전에서 새 키 정의
 keywords['greet'] = []
-# Populating the values in the keywords dictionary with synonyms of keywords
-# formatted with RegEx metacharacters
-for synonym in list(list_syn['hello']):
-    keywords['greet'].append('.*\\b' + synonym + '\\b.*')
+# 키워드 동의어로 키워드 사전 값 채우기
+# 정규식에 맞춰 formatting
+for synonym in list(list_syn['hello']): #Intent에 맞는 동의어를 keyword dictionary에 저장
+    keywords['greet'].append(synonym)
 
-# Defining a new key in the keywords dictionary
 keywords['timings'] = []
 for synonym in list(list_syn['timings']):
-    keywords['timings'].append('.*\\b' + synonym + '\\b.*')
+    keywords['timings'].append(synonym)
 
 for intent, keys in keywords.items():
-    # Joining the values in the keywords dictionary with the OR(|) operator updating
-    # them in keywords_dict dictionary
-    keywords_dict[intent]=re.compile('|'.join(keys))
-    
+    # Join 연산으로 키워드를 |로 결합
+    # keywords_dict dictionary에 저장
+    keywords_dict[intent]='|'.join(keys)
+
+print(keywords_dict)
 #앞서 지정한 list_syn(키워드의 동의어 집합 리스트)을 Intent 와 매칭 시키는 dictionary 를 생성해야 한다.
 # list_syn 은 사용자가 입력할 가능성이 있는 키워드를 정의해놓은 데이터라면,
 # keywords_dict 는 해당 키워드들이 실제 Intent 와 매칭될 수 있도록 정의하는 자료구조이다.
