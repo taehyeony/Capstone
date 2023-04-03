@@ -9,3 +9,6 @@ pip install pyaudio
 
 //mp3 재생
 pip install playsound==1.2.2
+
+//문장 의미 분석
+pip install nltk
