@@ -16,7 +16,7 @@ for word in list_words:
     sysnonyms = []  # 동의어 임시 저장
     for syn in wordnet.synsets(word):
         for (lem) in (syn.lemmas()):  # .lemmas는 syn이 Synset('***.?.00')형식으로 되어있는데 이를 Lemma class로 변환
-            lem_name = re.sub("[^a-zA-Z0-9 \n\.]", " ",
+            lem_name = re.sub("[^a-zA-Z0-9 \n\\.]", " ",
                               lem.name())  # 동의어 문자열에서 특수문자 제거
             sysnonyms.append(lem_name)
     list_syn[word] = set(sysnonyms)  # 중복된 값 제거
