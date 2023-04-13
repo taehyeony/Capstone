@@ -10,17 +10,14 @@ nltk.download("omw-1.4")
 # 이를 통해 직접 사용자가 사용할 가능성이 있는 단어들을 사전에 정의할 필요없이, 동의어 확장이 가능하다.
 
 # 키워드 목록 작성 및 동의어 획득
-list_words = ["hello", "timings"]  # 키워드
+list_words = ["안녕", "timings"]  # 키워드
 list_syn = {}  # 동의어(유사어)를 저장할 dictionary - 사용자가 입력할 가능성이 있는 단어
 for word in list_words:
     sysnonyms = []  # 동의어 임시 저장
     for syn in wordnet.synsets(word):
-        for (
-            lem
-        ) in (
-            syn.lemmas()
-        ):  # .lemmas는 syn이 Synset('***.?.00')형식으로 되어있는데 이를 Lemma class로 변환
-            lem_name = re.sub("[^a-zA-Z0-9 \n.]", " ", lem.name())  # 동의어 문자열에서 특수문자 제거
+        for (lem) in (syn.lemmas()):  # .lemmas는 syn이 Synset('***.?.00')형식으로 되어있는데 이를 Lemma class로 변환
+            lem_name = re.sub("[^a-zA-Z0-9 \n\.]", " ",
+                              lem.name())  # 동의어 문자열에서 특수문자 제거
             sysnonyms.append(lem_name)
     list_syn[word] = set(sysnonyms)  # 중복된 값 제거
 
@@ -30,16 +27,16 @@ for word in list_words:
 # 소스코드에서 list_syn 이 저장될 변수이다.
 
 # Intent(의도) 목록 작성
-# 예를 들어 hello와 유사한 단어가 입력되면 greet이라는 intent를 가짐
+# 예를 들어 hello와 유사한 단어가 입력되면 안녕이라는 intent를 가짐
 keywords = {}  # Intent 목록
 keywords_dict = {}  # Intent를 |로 구분해 저장
 
 # 키워드 사전에서 새 키 정의
-keywords["greet"] = []
+keywords["안녕"] = []
 # 키워드 동의어로 키워드 사전 값 채우기
 # 정규식에 맞춰 formatting
-for synonym in list(list_syn["hello"]):  # Intent에 맞는 동의어를 keyword dictionary에 저장
-    keywords["greet"].append(synonym)
+for synonym in list(list_syn["안녕"]):  # Intent에 맞는 동의어를 keyword dictionary에 저장
+    keywords["안녕"].append(synonym)
 
 keywords["timings"] = []
 for synonym in list(list_syn["timings"]):
@@ -56,9 +53,10 @@ for intent, keys in keywords.items():
 
 # Intent : responses - 의도 : 반응
 responses = {
-    "greet": "Hello! How can I help you?",
-    "timings": "We are open from 9AM to 5PM, Monday to Friday. We are closed on weekends and public holidays",
-    "fallback": "I dont quite understand. Could you repeat that?",
+    "안녕": "안녕하세요",
+    "timings": "We are open from 9AM to 5PM, Monday to Friday. We are closed \
+        on weekends and public holidays",
+    "fallback": "다시 한번 말씀해 주시겠어요?",
 }
 
 # 의도와 일치하는 응답 생성
