@@ -7,7 +7,7 @@ tts = gTTS(
     lang='ko', slow=False
 )
 tts.save('ex_ko.mp3')
-#음원 재생
+# 음원 재생
 ps.playsound('ex_ko.mp3')
-#재생한 음원 삭제
+# 재생한 음원 삭제
 os.remove('ex_ko.mp3')
